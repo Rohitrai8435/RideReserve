@@ -21,7 +21,7 @@ function UpdatePassword() {
     try {
       dispatch(ShowLoading());
       const response = await axios.post(
-        `/api/auth/ResetPassword/${userId}/${resetString}`,
+        `http://localhost:8080/api/auth/ResetPassword/${userId}/${resetString}`,
         values
       );
       if (response.status === 200) {

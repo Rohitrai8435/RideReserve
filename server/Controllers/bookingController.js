@@ -1,7 +1,9 @@
 const Booking = require("../models/bookingsModel");
 const Bus = require("../models/busModel");
 const User = require("../models/usersModel");
-const stripe = require("stripe")(process.env.stripe_key);
+const stripe = require("stripe")(
+  "sk_test_51PBszXSCJwY8LjFoXuiAZapFu0YKyagTO95qZAY6upv7i2PBSxZ9R4lHM1R9UgpULHaCr3Xy5Hc0HxmmIuC7PTyy00aNE9d8bL"
+);
 const { v4: uuidv4 } = require("uuid");
 const nodemailer = require("nodemailer");
 require("dotenv").config();
@@ -41,7 +43,7 @@ const BookSeat = async (req, res) => {
       Departure Time: ${moment(bus.departure, "HH:mm:ss").format("hh:mm A")}
       Arrival Time: ${moment(bus.arrival, "HH:mm:ss").format("hh:mm A")}
       Journey Date: ${bus.journeyDate}
-      Total Price: ${bus.price * req.body.seats.length} MAD
+      Total Price: ${bus.price * req.body.seats.length} INR
       Thank you for choosing us! 
       `,
     };
@@ -141,14 +143,16 @@ const CancelBooking = async (req, res) => {
 const PayWithStripe = async (req, res) => {
   try {
     const { token, amount } = req.body;
+
     const customer = await stripe.customers.create({
       email: token.email,
       source: token.id,
     });
-    const payment = await stripe.charges.create(
+
+    const payment = await stripe.paymentIntents.create(
       {
         amount: amount * 100,
-        currency: "MAD",
+        currency: "INR",
         customer: customer.id,
         receipt_email: token.email,
       },
@@ -158,16 +162,17 @@ const PayWithStripe = async (req, res) => {
     );
 
     if (payment) {
-      res.status(200).send({
+      console.log(payment);
+      return res.status(200).send({
         message: "Payment successful",
         data: {
-          transactionId: payment.source.id,
+          transactionId: payment.source,
         },
         success: true,
         amount: payment.amount,
       });
     } else {
-      res.status(500).send({
+      return res.status(500).send({
         message: "Payment failed",
         data: error,
         success: false,
@@ -175,7 +180,7 @@ const PayWithStripe = async (req, res) => {
       });
     }
   } catch (error) {
-    res.status(500).send({
+    return res.status(500).send({
       message: "Payment failed",
       data: error,
       success: false,

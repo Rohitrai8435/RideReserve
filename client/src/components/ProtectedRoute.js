@@ -17,7 +17,7 @@ function ProtectedRoute({ children }) {
       dispatch(ShowLoading());
 
       const response = await axios.get(
-        `/api/users/${user_id} `,
+        `http://localhost:8080/api/users/${user_id} `,
         {},
         {
           headers: {

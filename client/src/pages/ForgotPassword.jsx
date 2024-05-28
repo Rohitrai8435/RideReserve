@@ -13,7 +13,7 @@ function ForgotPassword() {
     try {
       dispatch(ShowLoading());
       const response = await axios.post(
-        "/api/auth/requestPasswordReset",
+        "http://localhost:8080/api/auth/requestPasswordReset",
         values
       );
       if (response.status === 200) {

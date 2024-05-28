@@ -20,10 +20,13 @@ function BusForm({
       dispatch(ShowLoading());
       let response = null;
       if (type === "add") {
-        response = await axiosInstance.post("/api/buses/add-bus", values);
+        response = await axiosInstance.post(
+          "http://localhost:8080/api/buses/add-bus",
+          values
+        );
       } else {
         response = await axiosInstance.put(
-          `/api/buses/${selectedBus._id}`,
+          `http://localhost:8080/api/buses/${selectedBus._id}`,
           values
         );
       }
@@ -43,9 +46,11 @@ function BusForm({
   };
 
   useEffect(() => {
-    axiosInstance.get("/api/cities/get-all-cities").then((response) => {
-      setCities(response.data.data);
-    });
+    axiosInstance
+      .get("http://localhost:8080/api/cities/get-all-cities")
+      .then((response) => {
+        setCities(response.data.data);
+      });
   }, []);
 
   return (

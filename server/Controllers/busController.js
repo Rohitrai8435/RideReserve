@@ -83,7 +83,7 @@ const GetBusesByFromAndTo = async (req, res) => {
     });
 
     const filteredBuses = buses.filter(
-      (bus) => bus.status !== "Completed" && bus.status !== "Running"
+      (bus) => bus.status !== "Completed" && bus.status == "Running"
     );
     res.status(200).send({
       message: "Buses fetched successfully",

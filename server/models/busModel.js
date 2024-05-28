@@ -6,7 +6,7 @@ const busSchema = new mongoose.Schema({
     required: true,
   },
   busNumber: {
-    type: Number,
+    type: String,
     required: true,
   },
   from: {

@@ -18,7 +18,10 @@ function Register() {
 
     try {
       dispatch(ShowLoading());
-      const response = await axios.post("/api/auth/create-user", values);
+      const response = await axios.post(
+        "http://localhost:8080/api/auth/create-user",
+        values
+      );
       dispatch(HideLoading());
       if (response.data.success) {
         message.success(response.data.message);

@@ -19,7 +19,9 @@ function BookNow() {
   const getBus = useCallback(async () => {
     try {
       dispatch(ShowLoading());
-      const response = await axiosInstance.get(`/api/buses/${params.id}`);
+      const response = await axiosInstance.get(
+        `http://localhost:8080/api/buses/${params.id}`
+      );
       dispatch(HideLoading());
       if (response.data.success) {
         setBus(response.data.data);
@@ -36,7 +38,9 @@ function BookNow() {
     try {
       dispatch(ShowLoading());
       const response = await axiosInstance.post(
-        `/api/bookings/book-seat/${localStorage.getItem("user_id")}`,
+        `http://localhost:8080/api/bookings/book-seat/${localStorage.getItem(
+          "user_id"
+        )}`,
         {
           bus: bus._id,
           seats: selectedSeats,
@@ -58,11 +62,15 @@ function BookNow() {
 
   const onToken = async (token) => {
     try {
+      console.log("hello");
       dispatch(ShowLoading());
-      const response = await axiosInstance.post("/api/bookings/make-payment", {
-        token,
-        amount: selectedSeats.length * bus.price,
-      });
+      const response = await axiosInstance.post(
+        "http://localhost:8080/api/bookings/make-payment",
+        {
+          token,
+          amount: selectedSeats.length * bus.price,
+        }
+      );
 
       dispatch(HideLoading());
       if (response.data.success) {
@@ -104,8 +112,8 @@ function BookNow() {
                 </h1>
 
                 <h1 className="text-lg">
-                  <b className="text-blue-600 italic">Price :</b> DH {bus.price}{" "}
-                  /-
+                  <b className="text-blue-600 italic">Price :</b> {bus.price}{" "}
+                  Rs/-
                 </h1>
                 <h1 className="text-lg">
                   <b className="text-blue-600 italic">Departure Time</b> :{" "}
@@ -136,8 +144,8 @@ function BookNow() {
                   {selectedSeats.join(", ")}
                 </h1>
                 <h1 className="text-xl mt-2 mb-3">
-                  <b className="text-blue-600 italic"> Price :</b> DH{" "}
-                  {bus.price * selectedSeats.length}
+                  <b className="text-blue-600 italic"> Price :</b>
+                  {bus.price * selectedSeats.length} Rs/-
                 </h1>
 
                 <StripeCheckout
@@ -145,8 +153,8 @@ function BookNow() {
                   disabled={selectedSeats.length === 0}
                   token={onToken}
                   amount={bus.price * selectedSeats.length * 100}
-                  currency="MAD"
-                  stripeKey="pk_test_ZT7RmqCIjI0PqcpDF9jzOqAS"
+                  currency="INR"
+                  stripeKey="pk_test_51PBszXSCJwY8LjFoWxuFCQnlky2onOdBRX7HJ8qnetaX8GhO1srSpctuDkvSDgVQgg085xnxz6gch3u3hFo2Tb6D00eoqOWp00"
                 >
                   <button
                     className={`${

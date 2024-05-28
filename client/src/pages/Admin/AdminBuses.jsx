@@ -16,7 +16,10 @@ function AdminBuses() {
   const getBuses = useCallback(async () => {
     try {
       dispatch(ShowLoading());
-      const response = await axiosInstance.post("/api/buses/get-all-buses", {});
+      const response = await axiosInstance.post(
+        "http://localhost:8080/api/buses/get-all-buses",
+        {}
+      );
       dispatch(HideLoading());
       if (response.data.success) {
         setBuses(response.data.data);
@@ -32,7 +35,10 @@ function AdminBuses() {
   const deleteBus = async (_id) => {
     try {
       dispatch(ShowLoading());
-      const response = await axiosInstance.delete(`/api/buses/${_id}`, {});
+      const response = await axiosInstance.delete(
+        `http://localhost:8080/api/buses/${_id}`,
+        {}
+      );
 
       dispatch(HideLoading());
       if (response.data.success) {

@@ -21,7 +21,7 @@ function Index() {
     const journeyDate = filters.journeyDate;
     try {
       const { data } = await axiosInstance.post(
-        `/api/buses/get?from=${from}&to=${to}&journeyDate=${journeyDate}`
+        `http://localhost:8080/api/buses/get?from=${from}&to=${to}&journeyDate=${journeyDate}`
       );
 
       setBuses(data.data);
@@ -33,9 +33,11 @@ function Index() {
   }, [filters, dispatch]);
 
   useEffect(() => {
-    axiosInstance.get("/api/cities/get-all-cities").then((response) => {
-      setCities(response.data.data);
-    });
+    axiosInstance
+      .get("http://localhost:8080/api/cities/get-all-cities")
+      .then((response) => {
+        setCities(response.data.data);
+      });
   }, []);
 
   useCallback(() => {
