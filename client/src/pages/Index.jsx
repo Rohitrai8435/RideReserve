@@ -34,7 +34,9 @@ function Index() {
 
   useEffect(() => {
     axiosInstance
-      .get("http://localhost:8080/api/cities/get-all-cities")
+      .get(
+        "https://ismartbusticketbooking.onrender.com/api/cities/get-all-cities"
+      )
       .then((response) => {
         setCities(response.data.data);
       });
@@ -49,7 +51,7 @@ function Index() {
   return (
     <>
       <Helmet>
-        <title>Easy-Booking</title>
+        <title>Ride Buddies</title>
       </Helmet>
       <div className="h-screen flex bg-gray-900">
         <div
@@ -88,7 +90,7 @@ function Index() {
             </div>
 
             <h1 className="mb-5 text-5xl text-white font-bold ">
-              Easy-Booking
+              Ride Buddies
             </h1>
             <p className="mb-5 text-xl text-white">
               is a platform that allows you to book your bus tickets online and
